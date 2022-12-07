@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Platform} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import MapScreen from './screens/MapScreen';
+import LoginScreen from './screens/LoginScreen';
+import TokenContext from './contexts/TokenContext';
 
-export default function App() {
+const TokenProvider = ({children}) => {
+  const [tokens, setTokens] = useState(0);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TokenContext.Provider value={{tokens, setTokens}}>
+      {children}
+    </TokenContext.Provider>
   );
-}
+};
+
+const AppNavigator = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <TokenProvider>
+        <AppNavigator.Navigator>
+          <AppNavigator.Screen name="Login" component={LoginScreen} />
+          <AppNavigator.Screen name="Map" component={props => <MapScreen {...props} />} />
+        </AppNavigator.Navigator>
+      </TokenProvider>
+    </NavigationContainer>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        backgroundColor: '#fff',
+      },
+      android: {
+        backgroundColor: '#333',
+      },
+    }),
   },
 });
+
+export default App;
