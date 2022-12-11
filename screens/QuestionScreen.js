@@ -5,22 +5,20 @@ import { Text, Checkbox, Button } from 'react-native-paper'
 const questions = [
   {
     id: 1,
-    text: 'What is the capital of France?',
+    text: 'O terreno parece está abandonado?',
     choices: [
-      { id: 1, text: 'Paris' },
-      { id: 2, text: 'London' },
-      { id: 3, text: 'Rome' },
-      { id: 4, text: 'Madrid' }
+      { id: 1, text: 'Sim' },
+      { id: 2, text: 'Não' }
     ]
   },
   {
     id: 2,
-    text: 'What is the capital of Italy?',
+    text: 'Você considera que a vegetação está em bom estado?',
     choices: [
-      { id: 1, text: 'Paris' },
-      { id: 2, text: 'London' },
-      { id: 3, text: 'Rome' },
-      { id: 4, text: 'Madrid' }
+      { id: 1, text: 'Sim, e aparenta estar bem cuidada.' },
+      { id: 2, text: 'Sim, entrentanto ela não parece receber manutençã0' },
+      { id: 3, text: 'Não, a vegetação está em péssimo estado.' },
+      { id: 4, text: 'Não consigo identificar' }
     ]
   }
 ]
