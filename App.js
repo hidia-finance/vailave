@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { MainBottomTabsNavigator } from './navigator/MainBottomTabsNavigator'
 import LoginScreen from './screens/LoginScreen'
 import TokenContext from './contexts/TokenContext'
-import { Provider as PaperProvider } from 'react-native-paper'
+import { ThemeProvider } from './theme'
 
 import { UserContext, UserProvider } from './contexts/UserContext'
 const TokenProvider = ({ children }) => {
@@ -18,19 +16,17 @@ const TokenProvider = ({ children }) => {
   )
 }
 
-const AppNavigator = createNativeStackNavigator()
-
 const App = () => {
   const { user } = useContext(UserContext)
   return (
-    <PaperProvider>
+    <ThemeProvider>
     <NavigationContainer>
       <TokenProvider>
           {user ? <MainBottomTabsNavigator/> : <LoginScreen />}
 
       </TokenProvider>
     </NavigationContainer>
-    </PaperProvider>
+    </ThemeProvider>
   )
 }
 

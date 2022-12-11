@@ -10,8 +10,19 @@ const BottomTabs = createBottomTabNavigator()
 export const MainBottomTabsNavigator = () => (
   <BottomTabs.Navigator
     screenOptions={{
-      tabBarStyle: { position: 'absolute' }
+      headerShown: false,
+      tabBarStyle: { position: 'absolute', paddingBottom: 8, paddingTop:  },
+      labelStyle: {
+        marginTop: 0,
+        marginBottom: 8
+      }
     }}
+    defaultNavigationOptions={{
+      tabBarLabel: {
+        marginTop: 0
+      }
+    }}
+    initialRouteName='main'
   >
     <BottomTabs.Screen
       name='main'
@@ -29,7 +40,7 @@ export const MainBottomTabsNavigator = () => (
         tabBarLabel: 'Wallet',
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='wallet' color={color} size={size} />
-        ),
+        )
       }}
       component={WalletScreen}
     />
@@ -48,4 +59,3 @@ export const MainBottomTabsNavigator = () => (
 )
 
 export default MainBottomTabsNavigator
-
