@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Text, Checkbox, Button } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
 
 const questions = [
   {
@@ -40,6 +41,7 @@ const styles = {
 export const QuestionScreen = () => {
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState({})
+  const navigation = useNavigation()
 
   const currentQuestion = questions[current]
 
@@ -77,7 +79,8 @@ export const QuestionScreen = () => {
         </View>
       ))}
     </View>
-    <Button mode="contained" onPress={onNext}>Next</Button>
+    { current === questions.length - 1 ? <Button mode="contained" onPress={() => navigation.navigate('success')}>Submit</Button> : <Button mode="contained" onPress={onNext}>Next</Button> }
+
   </View>
   )
 }

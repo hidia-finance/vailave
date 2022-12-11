@@ -1,9 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MapScreen } from '../screens/MapScreen'
 import { WalletScreen } from '../screens/WalletScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MainStackNavigator from './MainStackNavigator'
+import RegistrySentScreen from '../screens/RegistrySentScreen'
 
 const BottomTabs = createBottomTabNavigator()
 
@@ -13,26 +13,39 @@ export const MainBottomTabsNavigator = () => (
       tabBarStyle: { position: 'absolute' }
     }}
   >
-      <BottomTabs.Screen
-      name="map"
+    <BottomTabs.Screen
+      name='main'
       options={{
         tabBarLabel: 'Main',
         tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="map" color={color} size={size} />
+          <MaterialCommunityIcons name='map' color={color} size={size} />
         )
       }}
-      component={MainStackNavigator} />
-          <BottomTabs.Screen
-      name="wallet"
+      component={MainStackNavigator}
+    />
+    <BottomTabs.Screen
+      name='wallet'
       options={{
         tabBarLabel: 'Wallet',
         tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="wallet" color={color} size={size} />
+          <MaterialCommunityIcons name='wallet' color={color} size={size} />
+        ),
+      }}
+      component={WalletScreen}
+    />
+     <BottomTabs.Screen
+      name='process'
+      options={{
+        tabBarLabel: 'History',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name='history' color={color} size={size} />
         ),
         tabBarBadge: 3
       }}
-      component={WalletScreen} />
+      component={RegistrySentScreen}
+    />
   </BottomTabs.Navigator>
 )
 
 export default MainBottomTabsNavigator
+
