@@ -1,30 +1,14 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
+import React, { useContext, useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { TextInput, Button } from 'react-native-paper'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { UserContext } from '../contexts/UserContext'
 
-const LoginScreen = ({navigation}) => {
-  const [username, setUsername] = useState('testuser');
-  const [password, setPassword] = useState('testpass');
+const LoginScreen = ({ navigation }) => {
+  const [username, setUsername] = useState('testuser')
+  const [password, setPassword] = useState('testpass')
 
-  const login = () => {
-    // fetch('https://perovaz.com/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username,
-    //     password,
-    //   }),
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     if (data.success) {
-          navigation.navigate('Map');
-      //   } else {
-      //     alert('Invalid username or password');
-      //   }
-      // });
-  };
+  const { actions } = useContext(UserContext)
 
   return (
     <View style={styles.container}>
@@ -41,16 +25,16 @@ const LoginScreen = ({navigation}) => {
         value={password}
         onChangeText={text => setPassword(text)}
       />
-      <Button title="Login" onPress={login} />
+      <Button icon="walk" onPress={() => actions.login('me')} mode="contained" size="large">Acessar</Button>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   input: {
     width: 200,
@@ -58,8 +42,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: 1,
     borderColor: '#ccc',
-    margin: 10,
-  },
-});
+    margin: 10
+  }
+})
 
-export default LoginScreen;
+export default LoginScreen

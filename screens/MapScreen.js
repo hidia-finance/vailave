@@ -1,86 +1,100 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
-import {Menu} from 'react-native-paper';
-import {Icon} from 'react-native-elements';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import LocationService from '../services/LocationService';
-import TokenContext from '../contexts/TokenContext';
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import MapView, { Marker, Polygon } from 'react-native-maps'
+import { Button } from 'react-native-paper'
+import LocationService from '../services/LocationService'
+import TokenContext from '../contexts/TokenContext'
+import { isPointInPolygon } from 'geolib'
 
-const BottomTabs = createBottomTabNavigator();
-
-const MapScreen = ({navigation}) => {
-  const [location, setLocation] = useState(null);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const {tokens} = useContext(TokenContext);
+export const MapScreen = ({ navigation }) => {
+  const [location, setLocation] = useState(null)
+  const [polygonCoords, setPolygonCoords] = useState(false)
+  const [menuVisible, setMenuVisible] = useState(false)
+  const { tokens } = useContext(TokenContext)
+  const mapRef = useRef(null)
+  
+  const handleMapPress = () => {
+    mapRef.current.animateToBearing(45)
+  }
 
   useEffect(() => {
     const getLocation = async () => {
       try {
-        const coords = await LocationService.getCurrentLocation();
-        setLocation(coords);
+        const coords = await LocationService.getCurrentLocation()
+        setLocation(coords)
+
+        setPolygonCoords([
+          { latitude: coords.latitude - 0.0001, longitude: coords.longitude - 0.0001 },
+          { latitude: coords.latitude + 0.0001, longitude: coords.longitude - 0.0001 },
+          { latitude: coords.latitude + 0.0001, longitude: coords.longitude + 0.0001 },
+          { latitude: coords.latitude - 0.0001, longitude: coords.longitude + 0.0001 }
+        ])
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
-    getLocation();
-  }, []);
+    }
+    getLocation()
+  }, [])
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
+        pitchEnabled={true} // Enable map tilt
+        pitch={45} // Set the initial tilt angle to 45 degrees
         style={styles.map}
+        onPress={handleMapPress}
         initialRegion={{
           latitude: location ? location.latitude : 0,
           longitude: location ? location.longitude : 0,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.001,
+          longitudeDelta: 0.001
         }}
         region={{
           latitude: location ? location.latitude : 0,
           longitude: location ? location.longitude : 0,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.001,
+          longitudeDelta: 0.001
         }}>
         {location && (
           <Marker
             coordinate={{
               latitude: location.latitude,
-              longitude: location.longitude,
+              longitude: location.longitude
             }}
           />
         )}
+        { polygonCoords && <Polygon
+          coordinates={polygonCoords}
+          strokeColor="#F00"
+          fillColor="#F00"
+          fillOpacity={0.5}
+          strokeWidth={1}
+        />}
       </MapView>
-      <Menu
-        visible={menuVisible}
-        onDismiss={() => setMenuVisible(false)}
-        anchor={
-          <Icon
-            name="menu"
-            size={30}
-            onPress={() => setMenuVisible(true)}
-            containerStyle={styles.menuButton}
-          />
-        }>
-        <Menu.Item title="Tokens" onPress={() => {}} />
-        <Menu.Item title={`${tokens}`} onPress={() => {}} />
-      </Menu>
+      <View style={styles.menuButton}>
+       { isPointInPolygon(location, polygonCoords) && <Button icon="walk" onPress={() => {}} mode="contained" size="large">Registrar</Button>}
+       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   map: {
-    flex: 1,
+    flex: 1
   },
   menuButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
-    top: 10,
-    left: 10,
-  },
-});
+    width: '100%',
+    bottom: 60,
+    padding: 2
+  }
+})
 
-export default MapScreen;
+export default MapScreen
