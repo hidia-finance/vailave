@@ -5,16 +5,17 @@ import { Button } from 'react-native-paper'
 import LocationService from '../services/LocationService'
 import TokenContext from '../contexts/TokenContext'
 import { isPointInPolygon } from 'geolib'
+import { useNavigation } from '@react-navigation/native'
 
-export const MapScreen = ({ navigation }) => {
+export const MapScreen = () => {
   const [location, setLocation] = useState(null)
   const [polygonCoords, setPolygonCoords] = useState(false)
   const [menuVisible, setMenuVisible] = useState(false)
   const { tokens } = useContext(TokenContext)
+  const navigation = useNavigation()
   const mapRef = useRef(null)
-  
+
   const handleMapPress = () => {
-    mapRef.current.animateToBearing(45)
   }
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export const MapScreen = ({ navigation }) => {
         />}
       </MapView>
       <View style={styles.menuButton}>
-       { isPointInPolygon(location, polygonCoords) && <Button icon="walk" onPress={() => {}} mode="contained" size="large">Registrar</Button>}
+       { isPointInPolygon(location, polygonCoords) && <Button icon="walk" onPress={() => { navigation.navigate('photo') }} mode="contained" size="large">Registrar</Button>}
        </View>
     </View>
   )

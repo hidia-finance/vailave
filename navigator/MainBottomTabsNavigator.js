@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MapScreen } from '../screens/MapScreen'
 import { WalletScreen } from '../screens/WalletScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MainStackNavigator from './MainStackNavigator'
 
 const BottomTabs = createBottomTabNavigator()
 
@@ -12,16 +13,15 @@ export const MainBottomTabsNavigator = () => (
       tabBarStyle: { position: 'absolute' }
     }}
   >
-
       <BottomTabs.Screen
       name="map"
       options={{
-        tabBarLabel: 'Map',
+        tabBarLabel: 'Main',
         tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="map" color={color} size={size} />
         )
       }}
-      component={MapScreen} />
+      component={MainStackNavigator} />
           <BottomTabs.Screen
       name="wallet"
       options={{
