@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Button, IconButton } from 'react-native-paper'
+import { View, StyleSheet } from 'react-native'
+import { Button, IconButton, Text } from 'react-native-paper'
 import { isPointInPolygon } from 'geolib'
 
 export const CustomListItem = ({ item, location, onClickMoveToPolygon, onClickRegister }) => {
@@ -11,8 +11,8 @@ export const CustomListItem = ({ item, location, onClickMoveToPolygon, onClickRe
   return (
     <View style={styles.card}>
       <View style={styles.cardContent}>
-        <Text style={styles.cardText}>{item.name}</Text>
-        <Text style={styles.cardText}>{item.address}</Text>
+        <Text variant='bodyLarge' style={styles.cardText}>{item.name}</Text>
+        <Text style={styles.cardSub}>{item.address}</Text>
       </View>
       <View style={styles.iconContainer}>
         { isPointInPolygon(location, item.polygon)
@@ -47,8 +47,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start'
   },
   cardText: {
-    fontSize: 14,
-    color: '#444'
+    fontWeight: 'bold',
+    fontSize: 14
+  },
+  cardSub: {
+
+    fontSize: 14
   },
   iconContainer: {
     justifyContent: 'flex-end',

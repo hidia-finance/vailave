@@ -17,26 +17,12 @@ const questions = [
     text: 'Você considera que a vegetação está em bom estado?',
     choices: [
       { id: 1, text: 'Sim, e aparenta estar bem cuidada.' },
-      { id: 2, text: 'Sim, entrentanto ela não parece receber manutençã0' },
+      { id: 2, text: 'Sim, entrentanto ela não parece receber manutenção.' },
       { id: 3, text: 'Não, a vegetação está em péssimo estado.' },
       { id: 4, text: 'Não consigo identificar' }
     ]
   }
 ]
-
-const styles = {
-  container: {
-    margin: 20
-  },
-  question: {
-    marginBottom: 10
-  },
-  choice: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5
-  }
-}
 
 export const QuestionScreen = () => {
   const [current, setCurrent] = useState(0)
@@ -59,11 +45,11 @@ export const QuestionScreen = () => {
 
   return (
   <View style={styles.container}>
-    <View>
-       <Button mode="text" onPress={onBack}> Back </Button>
+    <View style={styles.back}>
+       <Button mode="text" icon="arrow-left" onPress={onBack}> Voltar </Button>
     </View>
-    <Text>{currentQuestion.text}</Text>
-    <View>
+    <Text style={{ fontWeight: 'bold' }}>{currentQuestion.text}</Text>
+    <View style={{ marginBottom: 30 }}>
       {currentQuestion.choices.map((choice) => (
         <View key={choice.id} style={styles.choice}>
           <Checkbox
@@ -79,10 +65,30 @@ export const QuestionScreen = () => {
         </View>
       ))}
     </View>
-    { current === questions.length - 1 ? <Button mode="contained" onPress={() => navigation.navigate('success')}>Submit</Button> : <Button mode="contained" onPress={onNext}>Next</Button> }
+    { current === questions.length - 1 ? <Button mode="contained" onPress={() => navigation.navigate('success')}>Finalizar</Button> : <Button mode="contained" onPress={onNext}>Enviar</Button> }
 
   </View>
   )
 }
+
+
+const styles = {
+  container: {
+    margin: 20
+  },
+  back: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  question: {
+    marginBottom: 10
+  },
+  choice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5
+  }
+}
+
 
 export default QuestionScreen

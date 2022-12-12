@@ -16,9 +16,9 @@ const SuccessScreen = ({ navigation }) => {
       <Button
         mode="contained"
         style={styles.button}
-        onPress={() => navigation.navigate('history')}
+        onPress={() => navigation.navigate('map')}
       >
-        View history
+        Voltar para a tela inicial
       </Button>
     </View>
   )

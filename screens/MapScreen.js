@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import MapView, { Marker, Polygon } from 'react-native-maps'
 import { FAB } from 'react-native-paper'
-import LocationService from '../services/LocationService'
-import { uuid } from '../utils/uuid'
+import Icon from 'react-native-vector-icons/Feather'
 
 import { useNavigation } from '@react-navigation/native'
 import { CustomListItem } from '../components/CustomListItem'
+import LocationService from '../services/LocationService'
+import CustomMapStyle from '../theme/custom-map-style.json'
 
 export const MapScreen = () => {
   const [location, setLocation] = useState(null)
@@ -22,7 +23,7 @@ export const MapScreen = () => {
       setData([
         {
           id: 1,
-          name: 'Polygon 1',
+          name: 'Minha Casa',
           address: 'Al. das Acácias Bl B',
           polygon: [
             { latitude: coords.latitude - 0.0001, longitude: coords.longitude - 0.0001 },
@@ -32,11 +33,11 @@ export const MapScreen = () => {
           ]
         }, {
           id: 2,
-          name: 'Polygon 2',
+          name: 'Região 2',
           address: 'Area dos Pioneiros',
           polygon: [
             { latitude: -15.8316379 - 0.0003, longitude: -48.0340222 - 0.0006 },
-            { latitude: -15.8316379 - 0.0002, longitude: -48.0340222 + 0.0006 },
+            { latitude: -15.8316379 - 0.0002, longitude: -48.0340222 - 0.0003 },
             { latitude: -15.8316379 - 0.0002, longitude: -48.0340222 - 0.0006 }
           ]
         }])
@@ -68,7 +69,10 @@ export const MapScreen = () => {
       <MapView
         ref={mapRef}
         pitchEnabled={true}
+        logoEnabled={false}
+        legal_attributions=""
         pitch={45}
+        // customMapStyle={CustomMapStyle}
         style={styles.mapStyle}
         initialRegion={{
           latitude: location ? location.latitude : 0,
@@ -94,7 +98,7 @@ export const MapScreen = () => {
           key={item.id}
           coordinates={item.polygon}
           strokeColor="#F00"
-          fillColor="#F00"
+          fillColor="rgba(255,0,0,0.2)"
           street={false}
           fillOpacity={0.5}
           strokeWidth={1}
@@ -102,8 +106,9 @@ export const MapScreen = () => {
         ))}
       </MapView>
       <FAB
-         icon="plus"
+        icon={() => <Icon name="navigation-2" size={24} color="#447B3B" />}
         onPress={() => handleMoveToLocation(location)}
+        mode="contained"
         style={styles.fab}
         />
         </View>
@@ -122,7 +127,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   mapContainerStyle: {
-    flex: 2
+    flex: 2,
+    marginBottom: -30
   },
   mapStyle: {
     flex: 1
@@ -149,13 +155,16 @@ const styles = StyleSheet.create({
   },
   menu: {
     flex: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     backgroundColor: '#fff'
   },
   fab: {
     position: 'absolute',
+    backgroundColor: "#fff",
     margin: 16,
     right: 0,
-    bottom: 0
+    bottom: 20
   }
 })
 

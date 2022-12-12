@@ -27,19 +27,19 @@ const PhotoScreen = () => {
   }
 
   return (
-    <View>
+    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
       {photo
         ? (
-          <>
-          <Image source={{ uri: photo.uri }} style={{ width: 300, height: 300 }} />
-          <Button onPress={() => navigation.navigate('questions')}> Avancar </Button>
-          </>
+          <View style={{ flex: 1 }}>
+            <Image source={{ uri: photo.uri }} style={{ width: '100%', height: '100%' }} />
+            <Button mode="contained" onPress={() => navigation.navigate('questions')} style={{ position: 'absolute', bottom: 80 }}> Avancar </Button>
+          </View>
           )
         : (
-          <>
-            {permissionStatus === 'granted' && (<Camera ref={cameraRef} style={{ width: 300, height: 300 }} />)}
-            <Button onPress={takePhoto}> Tirar foto </Button>
-          </>
+          <View style={{ flex: 1 }}>
+            {permissionStatus === 'granted' && (<Camera ref={cameraRef} style={{ width: '100%', height: '100%' }} />)}
+            <Button mode="contained" onPress={takePhoto} style={{ position: 'absolute', bottom: 80 }}> Tirar foto </Button>
+          </View>
           )}
     </View>
   )

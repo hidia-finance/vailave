@@ -10,12 +10,9 @@ const BottomTabs = createBottomTabNavigator()
 export const MainBottomTabsNavigator = () => (
   <BottomTabs.Navigator
     screenOptions={{
+      tabBarActiveTintColor: '#447B3B',
       headerShown: false,
-      tabBarStyle: { position: 'absolute', paddingBottom: 8, paddingTop:  },
-      labelStyle: {
-        marginTop: 0,
-        marginBottom: 8
-      }
+      tabBarStyle: { position: 'absolute', paddingBottom: 10, paddingTop: 10, height: 70 }
     }}
     defaultNavigationOptions={{
       tabBarLabel: {
@@ -27,7 +24,7 @@ export const MainBottomTabsNavigator = () => (
     <BottomTabs.Screen
       name='main'
       options={{
-        tabBarLabel: 'Main',
+        tabBarLabel: 'Mapa',
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='map' color={color} size={size} />
         )
@@ -37,21 +34,33 @@ export const MainBottomTabsNavigator = () => (
     <BottomTabs.Screen
       name='wallet'
       options={{
-        tabBarLabel: 'Wallet',
+        tabBarLabel: 'Carteira',
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='wallet' color={color} size={size} />
-        )
+        ),
+                tabBarBadge: 3,
+        tabBarBadgeStyle: { backgroundColor: '#447B3B' }
       }}
       component={WalletScreen}
     />
      <BottomTabs.Screen
       name='process'
       options={{
-        tabBarLabel: 'History',
+        tabBarLabel: 'Histórico',
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='history' color={color} size={size} />
         ),
-        tabBarBadge: 3
+
+      }}
+      component={RegistrySentScreen}
+    />
+     <BottomTabs.Screen
+      name='profile'
+      options={{
+        tabBarLabel: 'Perfil',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name='face-man-profile' color={color} size={size} />
+        ),
       }}
       component={RegistrySentScreen}
     />
